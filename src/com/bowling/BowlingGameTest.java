@@ -8,12 +8,14 @@ class BowlingGameTest {
 
 	private BowlingGame game = new BowlingGame();
 	
+	//Player hasn't knocked down any pins in a frame.
 	@Test
 	void worstGame() {
 		rollZeros(20);
 		assertEquals(0, game.score());
 	}
 	
+	//Player knocks down 1 pin in first roll
 	@Test
 	void onePin() {
 		game.roll(1);
@@ -21,6 +23,7 @@ class BowlingGameTest {
 		assertEquals(1, game.score());
 	}
 	
+	//Negative Scenario
 	@Test
 	void negativeRoll() {
 		try {
@@ -31,6 +34,7 @@ class BowlingGameTest {
 		
 	}
 	
+	//Player hits a spare in the first frame and then knocks down 3 pins in the second frame
 	@Test
 	void oneSpare() {
 		roll(5,5,1,2);
@@ -38,6 +42,7 @@ class BowlingGameTest {
 		assertEquals(11 + 3, game.score());
 	}
 	
+	//Player hits a strike in the first frame and then knocks down 5 pins in the second frame
 	@Test
 	void oneStrike() {
 		roll(10,0,2,3);
