@@ -2,46 +2,44 @@ package com.bowling;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class BowlingGame {
-	
-	
+
 	private List<Integer> rolls = new ArrayList<Integer>();
-	
+
 	public void roll(int pins) {
-		if(pins > 10 || pins < 0) {
+		if (pins > 10 || pins < 0) {
 			throw new IllegalArgumentException("Illegal Argument");
 		}
 		rolls.add(pins);
 	}
-	
+
 	public int score() {
 		List<Frame> frames = buildFrames();
-		List<Integer> scores = new ArrayList<Integer>();
-		for(int i = 0; i < frames.size() - 1; i++) {
-			Frame frame = frames.get(i);
-			if(frame.isSpare()) {
-				scores.add(frame.baseScore()+frames.get(i+1).getRoll1());
-			}else if(frame.isStrike()) {
-					scores.add(frame.baseScore()+frames.get(i+1).baseScore());	
-			}else {
-				scores.add(frame.baseScore());
+		int score = 0;
+		int rollsIndex = 0;
+		for (int i = 0; i <= frames.size() - 1; i++) {
+			Frame currentFrame = frames.get(i);
+			score += currentFrame.baseScore();
+			if (currentFrame.isStrike()) {
+				if (rolls.get(rollsIndex + 2) == 10) {
+					score += rolls.get(rollsIndex + 2) + rolls.get(rollsIndex + 4);
+				} else {
+					score += rolls.get(rollsIndex + 2) + rolls.get(rollsIndex + 3);
+				}
+			} else if (currentFrame.isSpare()) {
+				score += rolls.get(rollsIndex + 2);
 			}
+			rollsIndex += 2;
 		}
-		int totalScore = scores.stream().mapToInt(i->i).sum();
-		return totalScore;
+		return score;
 	}
-	
-	private List<Frame> buildFrames(){
-		List<Frame> frames = new ArrayList<Frame>();
-		for(int i = 0;i < rolls.size();i++) {
-			if(rolls.get(i) == 10) {
-				frames.add(new Frame(10,0));
-			}else {
-			    frames.add(new Frame(rolls.get(i),rolls.get(i+1)));
-			}
-			i++;
-		}
+
+	private List<Frame> buildFrames() {
+		List<Frame> frames = IntStream.range(0, rolls.size() / 2).limit(10)
+				.mapToObj(i -> new Frame(rolls.get(i * 2), rolls.get(i * 2 + 1))).collect(Collectors.toList());
 		return frames;
 	}
 
