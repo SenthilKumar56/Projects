@@ -14,7 +14,7 @@ class BowlingGameTest {
 	@Test
 	void worstGame() {
 		rollZeros(20);
-		assertEquals(0, game.score());
+		assertEquals(0, game.calculateScore());
 	}
 
 	// Player knocks down 1 pin in first roll
@@ -22,7 +22,7 @@ class BowlingGameTest {
 	void onePin() {
 		game.roll(1);
 		rollZeros(19);
-		assertEquals(1, game.score());
+		assertEquals(1, game.calculateScore());
 	}
 
 	// Negative Scenario
@@ -42,7 +42,7 @@ class BowlingGameTest {
 	void oneSpare() {
 		roll(5, 5, 1, 2);
 		rollZeros(16);
-		assertEquals(11 + 3, game.score());
+		assertEquals(11 + 3, game.calculateScore());
 	}
 
 	// Player hits a strike in the first frame and then knocks down 5 pins in the
@@ -51,21 +51,21 @@ class BowlingGameTest {
 	void oneStrike() {
 		roll(10, 0, 2, 3);
 		rollZeros(16);
-		assertEquals(15 + 5, game.score());
+		assertEquals(15 + 5, game.calculateScore());
 	}
 
 	// Player hits spare in all frame
 	@Test
 	void allSpare() {
 		roll(9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9);
-		assertEquals(19 + 19 + 19 + 19 + 19 + 19 + 19 + 19 + 19 + 19, game.score());
+		assertEquals(19 + 19 + 19 + 19 + 19 + 19 + 19 + 19 + 19 + 19, game.calculateScore());
 	}
 
 	// Player hits strike in all frame
 	@Test
 	void allStrike() {
 		roll(10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0);
-		assertEquals(30 + 30 + 30 + 30 + 30 + 30 + 30 + 30 + 30 + 30, game.score());
+		assertEquals(30 + 30 + 30 + 30 + 30 + 30 + 30 + 30 + 30 + 30, game.calculateScore());
 	}
 
 	private void roll(int... pinsArray) {

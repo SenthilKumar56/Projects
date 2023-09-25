@@ -16,7 +16,7 @@ public class BowlingGame {
 		rolls.add(pins);
 	}
 
-	public int score() {
+	public int calculateScore() {
 		List<Frame> frames = buildFrames();
 		int score = 0;
 		int rollsIndex = 0;
