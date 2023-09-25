@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 public class BowlingGame {
 
-	private List<Integer> rolls = new ArrayList<Integer>();
+	private List<Integer> rolls = new ArrayList<>();
 
 	public void roll(int pins) {
 		if (pins > 10 || pins < 0) {
@@ -38,9 +38,8 @@ public class BowlingGame {
 	}
 
 	private List<Frame> buildFrames() {
-		List<Frame> frames = IntStream.range(0, rolls.size() / 2).limit(10)
+		return IntStream.range(0, rolls.size() / 2).limit(10)
 				.mapToObj(i -> new Frame(rolls.get(i * 2), rolls.get(i * 2 + 1))).collect(Collectors.toList());
-		return frames;
 	}
 
 }
